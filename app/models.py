@@ -56,7 +56,8 @@ class project_description(Base):
     __tablename__ = 'project_description'
 
     id_project = Column(Integer, primary_key=True)
-    status = Column(String)
+    type = Column(String, primary_key=True)
+    description = Column(String)
 
 
 class task(Base):

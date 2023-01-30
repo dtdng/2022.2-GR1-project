@@ -26,7 +26,7 @@ class project(BaseModel):
 
 class project_status(project):
     id_project: int
-    status: List[str] = ['finish', 'unfinish']
+    status: bool
 
     class Config:
         orm_mode: True
@@ -63,3 +63,20 @@ class UserInput(User):
 class TokenData(BaseModel):
     username: Union[str, None] = None
     scopes: List[str] = []
+
+
+class project_description(BaseModel):
+    id_project: int
+    type: str
+    description: str
+
+
+class task(BaseModel):
+    id_project: int
+    id_employee: int
+    description: str
+
+
+class task_status(BaseModel):
+    id_task: int
+    status: str

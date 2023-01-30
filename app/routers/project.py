@@ -28,7 +28,7 @@ def create_project(request: schemas.project, db: Session = Depends(get_db)):
     new_obj = models.Projects(
         id_project=db.query(models.Projects).count() + 1,
         name_project=request.name_project,
-        create_time=datetime.now() + ', ' + date.now(),
+        create_time= date.today(),
         description=request.description
     )
     # when create project, project_status will be create automatically
@@ -37,7 +37,6 @@ def create_project(request: schemas.project, db: Session = Depends(get_db)):
         status='not finish'
     )
     db.add(new_obj)
-    db.refresh(new_obj)
     db.add(new_status)
     db.commit()
     db.refresh(new_status)
@@ -60,5 +59,39 @@ def update_project(request: schemas.project_status, db: Session = Depends(get_db
     update_status = db.query(models.project_status).filter(
         models.project_status.id_project == request.id_project).first()
     update_status.status = request.status
+    db.commit()
+    return 'update success fully'
+
+
+@router.delete('/')
+def delete_project(project_id: int, db: Session = Depends(get_db)):
+    # xoa ca nhung data co lien quan toi project do
+    db.query(models.Projects).filter(models.Projects.id_project ==
+                                     project_id).delete(synchronize_session=False)
+    db.query(models.project_status).filter(models.project_status.id_project ==
+                                           project_id).delete(synchronize_session=False)
+    db.query(models.project_description).filter(
+        models.project_description.id_project == project_id).delete(synchronize_session=False)
+    db.commit()
+    return 'deleted!' 
+
+@router.post('/description/')
+def add_description(request: schemas.project_description, db: Session = Depends(get_db)):
+    new_obj = models.project_description(
+        id_project=request.id_project,
+        type=request.type,
+        description=request.description
+    )
+    db.add(new_obj)
+    db.commit()
+    db.refresh(new_obj)
+    return new_obj
+
+
+@router.put('/description/{id}')
+def update_description(id:int, request: schemas.project_description, db: Session = Depends(get_db)):
+    obj = db.query(models.project_description).filter(models.project_description.id_project ==
+                                                      request.id_project and models.project_description.type == request.type).first()
+    obj.description = request.description
     db.commit()
     return 'update success fully'
