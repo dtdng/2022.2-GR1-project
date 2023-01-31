@@ -11,16 +11,19 @@ from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from pydantic import BaseModel, ValidationError
 from JWTToken import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 from oauth2 import oauth2_scheme
-from datetime import date, datetime
+from datetime import date
+# from . import workflow
 
 router = APIRouter(
     prefix="/project",
     tags=["project"],
     dependencies=None,
-    responses=None
+    responses={404: {"description": "Not found"}},
 )
 
 get_db = database.get_db
+
+# router.include_router(workflow.router)
 
 
 @router.post('/')
@@ -28,7 +31,7 @@ def create_project(request: schemas.project, db: Session = Depends(get_db)):
     new_obj = models.Projects(
         id_project=db.query(models.Projects).count() + 1,
         name_project=request.name_project,
-        create_time= date.today(),
+        create_time=date.today(),
         description=request.description
     )
     # when create project, project_status will be create automatically
@@ -73,7 +76,8 @@ def delete_project(project_id: int, db: Session = Depends(get_db)):
     db.query(models.project_description).filter(
         models.project_description.id_project == project_id).delete(synchronize_session=False)
     db.commit()
-    return 'deleted!' 
+    return 'deleted!'
+
 
 @router.post('/description/')
 def add_description(request: schemas.project_description, db: Session = Depends(get_db)):
@@ -89,7 +93,7 @@ def add_description(request: schemas.project_description, db: Session = Depends(
 
 
 @router.put('/description/{id}')
-def update_description(id:int, request: schemas.project_description, db: Session = Depends(get_db)):
+def update_description(id: int, request: schemas.project_description, db: Session = Depends(get_db)):
     obj = db.query(models.project_description).filter(models.project_description.id_project ==
                                                       request.id_project and models.project_description.type == request.type).first()
     obj.description = request.description

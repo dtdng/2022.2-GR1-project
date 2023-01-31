@@ -2,7 +2,7 @@ from database import SessionLocal
 from fastapi import FastAPI, Request, Response
 from database import engine, database
 import models
-from routers import login, admin, manager, project, employee, task
+from routers import login, admin, manager, project, employee, task, workflow
 app = FastAPI()
 
 models.Base.metadata.create_all(engine)
@@ -13,7 +13,7 @@ app.include_router(manager.router)
 app.include_router(project.router)
 app.include_router(employee.router)
 app.include_router(task.router)
-
+app.include_router(workflow.router)
 
 
 @app.on_event("startup")

@@ -17,8 +17,10 @@ class accounts(Base):
     role_id = Column(Integer)
     username = Column(String)
     password = Column(String)
-    
+
     # def __init__:
+
+
 class Manager(Base):
     __tablename__ = 'manager'
 
@@ -83,7 +85,7 @@ class workflow_record(Base):
     id_workflow = Column(Integer, primary_key=True)
     id_project = Column(Integer)
     status = Column(String)
-    execute_time = Column(Time)
+    execute_time = Column(String)
 
 
 class workflow_description(Base):

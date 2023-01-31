@@ -17,7 +17,7 @@ router = APIRouter(
     prefix="/task",
     tags=["task"],
     dependencies=None,
-    responses=None
+    responses={404: {"description": "Not found"}},
 )
 
 get_db = database.get_db

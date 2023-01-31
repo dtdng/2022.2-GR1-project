@@ -45,7 +45,8 @@ def create_account(request: schemas.account_input, db: Session = Depends(get_db)
         )
 
     new_account = models.accounts(
-        account_id=db.query(models.accounts).count() + 1,  # auto increment account_id
+        account_id=db.query(models.accounts).count() +
+        1,  # auto increment account_id
         role_id=request.role_id,
         username=request.username,
         password=Hash.get_password_hash(request.password)
@@ -74,6 +75,7 @@ def create_account(request: schemas.account_input, db: Session = Depends(get_db)
     db.commit()
     db.refresh(new_account)
     return new_obj
+
 
 async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     if security_scopes.scopes:

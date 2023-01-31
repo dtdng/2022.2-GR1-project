@@ -80,3 +80,22 @@ class task(BaseModel):
 class task_status(BaseModel):
     id_task: int
     status: str
+
+
+class workflow_description(BaseModel):
+    id_project: int
+    phase: int
+    description: str
+
+
+class workflow_record(BaseModel):
+    id_workflow: int
+    id_project: int
+    status: str
+
+
+class log_file(BaseModel):
+    id_workflow: int
+    phase: int
+    type: str
+    log: str
