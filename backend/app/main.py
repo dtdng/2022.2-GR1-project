@@ -1,7 +1,7 @@
-from database import SessionLocal
+from db.database import SessionLocal
 from fastapi import FastAPI, Request, Response
-from database import engine, database
-import models
+from db.database import engine, database
+from models import models
 from routers import login, admin, manager, project, employee, task, workflow
 app = FastAPI()
 

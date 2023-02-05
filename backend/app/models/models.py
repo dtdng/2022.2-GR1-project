@@ -1,6 +1,6 @@
 from email.policy import default
 from sqlalchemy import Column, Integer, String, Date, Time
-from database import Base
+from db.database import Base
 
 
 class roles(Base):

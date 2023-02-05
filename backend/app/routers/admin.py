@@ -3,16 +3,15 @@ from fastapi import APIRouter, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
 import models
 import schemas
-import database
-import oauth2
-from hash import Hash
+import db.database as database
+from core.hash import Hash
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from pydantic import BaseModel, ValidationError
-from JWTToken import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
-from oauth2 import oauth2_scheme
+from core.JWTToken import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+from core.oauth2 import oauth2_scheme
 from datetime import date, datetime
-
+from schemas import schemas as schemas
 router = APIRouter(
     # prefix="/",
     # tags=["admin"],
