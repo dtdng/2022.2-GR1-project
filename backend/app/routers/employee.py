@@ -9,6 +9,7 @@ from pydantic import BaseModel, ValidationError
 from core.JWTToken import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 from core.oauth2 import oauth2_scheme
 from db import database
+
 router = APIRouter(
     prefix="/employee",
     tags=["employee"],
