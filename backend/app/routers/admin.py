@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
-import models
+from models import models
 import schemas
 import db.database as database
 from core.hash import Hash
@@ -73,7 +73,7 @@ def create_account(request: schemas.account_input, db: Session = Depends(get_db)
     db.add(new_account)
     db.commit()
     db.refresh(new_account)
-    return new_obj
+    return 
 
 
 async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):

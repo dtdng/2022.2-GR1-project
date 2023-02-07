@@ -1,8 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
-import models
-import schemas
+from models import models
+from schemas import schemas
 from db import database
 from datetime import date
 from schemas import schemas
@@ -39,7 +39,7 @@ def create_project(request: schemas.project, db: Session = Depends(get_db)):
 
 
 @router.put('/{id}')
-def update_project(request: schemas.project_status, db: Session = Depends(get_db)):
+def update_project(id:int ,request: schemas.project_status, db: Session = Depends(get_db)):
     update_obj = db.query(models.Projects).filter(
         models.Projects.id_project == request.id_project).first()
     if not update_obj:

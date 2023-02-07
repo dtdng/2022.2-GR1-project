@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
-import models
+from models import models
 from schemas import schemas
 from db import database
 from core import hash

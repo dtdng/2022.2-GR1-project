@@ -5,16 +5,16 @@ from sqlalchemy.orm import sessionmaker
 import sqlalchemy
 import databases
 
-# SQLALCHEMY_DATABASE_URL = "postgres://postgres:1234@localhost:5432/GR1"
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:1234@localhost:5432/gr1_project"
+# SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 database = databases.Database(SQLALCHEMY_DATABASE_URL)
 
 metadata = sqlalchemy.MetaData()
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL
 )
-
+# connect_args={"check_same_thread": False} #need for sqlite
 metadata.create_all(engine)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

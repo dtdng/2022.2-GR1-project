@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
-import models
+from models import models
 from schemas import schemas
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes

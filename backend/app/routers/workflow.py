@@ -40,7 +40,7 @@ def update_workflow_description(id: int, request: schemas.workflow_description, 
 
 
 @router.delete('/description/')
-def update_workflow_description(request: schemas.workflow_description, db: Session = Depends(get_db)):
+def delete_workflow_description(request: schemas.workflow_description, db: Session = Depends(get_db)):
     db.query(models.workflow_description).filter(models.workflow_description.id_project ==
                                                  request.id_project and models.workflow_description.phase == request.phase).delete(synchronize_session=False)
     db.commit()
