@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./index.css">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Define the main container styles */
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            font-family: 'Open Sans', Arial, sans-serif;
+        }
+
+        /* Define the styles for the sidebar */
+        .sidebar {
+            width: 200px;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        /* Define the styles for the main content area */
+        .main-content {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+        }
+
+        /* Define the styles for the header */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Define the styles for the navigation menu */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <header>Admin Dashboard</header>
+            <nav>
+                <ul>
+                    <li><a href="./admin.html">Home</a></li>
+                    <li><a href="#">Add Role</a></li>
+                    <li><a href="./add_account.html">Add Account</a></li>
+                </ul>
+                <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>ADD ROLE</header>
+            <p>Add Role</p>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+
+</html>
