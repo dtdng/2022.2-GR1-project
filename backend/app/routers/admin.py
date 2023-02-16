@@ -110,3 +110,7 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
     #             headers={"WWW-Authenticate": authenticate_value},
     #         )
     return current_account
+
+@router.get('/me')
+def read_users_me(current_user: schemas.project_status = Security(get_current_user, scopes=["me"])):
+    return current_user
