@@ -52,3 +52,25 @@ def update_status_task(request: schemas.task_status, db: Session = Depends(get_d
     obj.status = request.status
     db.commit()
     return 'updated!'
+
+@router.get('/')
+def get_all_task(db: Session=Depends(get_db)):
+    obj = db.query(models.task).all();
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj
+
+@router.get('/{id}/status')
+def get_task_status_by_id(id: int, db: Session=Depends(get_db)):
+    obj = db.query(models.task_status).filter(models.task_status.id_task == id).first();
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj
+
+
+@router.get('/status')
+def get_task_status(db: Session=Depends(get_db)):
+    obj = db.query(models.task_status).order_by(models.task_status.id_task).all();
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj

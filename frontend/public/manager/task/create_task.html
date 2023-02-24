@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../index.css">
+    <script src="../manager.js"></script>
+    <title>Manager Dashboard</title>
+    <script> 
+        $(function(){
+          $("#includedSidebar").load("sidebar.html"); 
+        });
+    </script> 
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <header>Manager Dashboard</header>
+            <nav>
+                <ul>
+                    <li><a href="../manager.html">Home</a></li>
+                    <li><a href="../project/view_project.html">List project</a></li>
+                    <li><a href="../project/create_project.html">Create project</a></li>
+                    <li><a href="../project/update_project.html">Update project</a></li>
+                    <li><a href="../task/create_task.html">Create task</a></li>
+                    <li><a href="../task/list_task.html">List task</a></li>
+                    <li><a href="../workflow/create_workflow.html">Workflow</a>
+                </ul>
+                <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
+            </nav>
+        </div>
+    
+        <!-- Sidebar -->
+        <div id="includedSidebar"></div>
+        <!-- Main Content -->
+        <div class="main-content" >
+            <header>Manager DASHBOARD</header>
+            <p>Create task</p>
+
+            <div style="width: 30%; float:left">
+                <form>
+                    <label for="project_id">Project ID:</label></br>
+                    <input type="text" id="project_id" name="project_id"></br>
+                    <label for="employee_id">Employee ID:</label></br>
+                    <input type="text" id="employee_id" name="employee_id"></br>
+                    <label for="description">Description:</label></br>
+                    <input type="text" id="description" name="description"></br>
+                    <div><button type="button" onclick="createTask()">Create</button></div>
+                </form>
+            </div>
+            <div style="width: 70%; float:right">
+                <button><a id='view_all' onclick="get_all_employee()">View All</a></button>
+                <div id="objects-container">
+                    <table >
+                        <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Name</th>
+                                <th>Employee ID</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-output">  
+                        
+                        </tbody>
+                    </table>
+                </div>
+                <div id="project-display">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

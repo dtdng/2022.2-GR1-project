@@ -1,11 +1,20 @@
-// var jwt = localStorage.getItem("jwt");
-// if (jwt != null) {
-//   window.location.href = '../admin/admin.html'
-// }
+var jwt = localStorage.getItem("jwt");
+var role_id = localStorage.getItem("role_id")
+if (jwt != null) {
+  if (role_id == 0) {
+    window.location.href = '../admin/admin.html'
+  }
+  else if (role_id == 1) {
+    window.location.href = '../manager/manager.html'
+  }
+  else if (role_id == 2) {
+    window.location.href = '../employee/employee.html'
+  }
+}
+
 function checkLogin() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  console.log(username, password);
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "http://localhost:8000/login/");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -19,24 +28,20 @@ function checkLogin() {
       console.log(objects);
       if (objects['status'] == 'ok') {
         localStorage.setItem("jwt", objects['access_token']);
+        localStorage.setItem("role_id", objects['role_id']);
+        localStorage.setItem("account_id", objects['account_id']);
         console.log('login success')
-        window.location.href = '../admin/admin.html'
-        // Swal.fire({
-        //   text: objects['message'],
-        //   icon: 'success',
-        //   confirmButtonText: 'OK'
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //     window.location.href = './index.html';
-        //   }
-        // });
+        if (objects['role'] == 0) {
+          window.location.href = '../admin/admin.html'
+        }
+        else if (objects['role'] == 1) {
+          window.location.href = '../manager/manager.html'
+        }
+        else if (objects['role'] == 2) {
+          window.location.href = '../employee/employee.html'
+        }
       } else {
-        // Swal.fire({
-        //   text: objects['message'],
-        //   icon: 'error',
-        //   confirmButtonText: 'OK'
-        // });
-        alert('login failed')
+        alert('Login failed\n Username or password is incorrect')
       }
     }
   };

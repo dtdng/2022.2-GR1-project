@@ -26,7 +26,7 @@ class project(BaseModel):
 
 class project_status(project):
     id_project: int
-    status: bool
+    status: str
 
     class Config:
         orm_mode: True
@@ -99,3 +99,6 @@ class log_file(BaseModel):
     phase: int
     type: str
     log: str
+
+class account_ID_input(BaseModel):
+    account_id: str

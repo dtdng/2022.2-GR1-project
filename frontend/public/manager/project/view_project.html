@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../index.css">
+    <script src="../manager.js"></script>
+    <title>Manager Dashboard</title>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <header>Manager Dashboard</header>
+            <nav>
+                <ul>
+                    <li><a href="../manager.html">Home</a></li>
+                    <li><a href="../project/view_project.html">List project</a></li>
+                    <li><a href="../project/create_project.html">Create project</a></li>
+                    <li><a href="../project/update_project.html">Update project</a></li>
+                    <li><a href="../task/create_task.html">Create task</a></li>
+                    <li><a href="../task/list_task.html">List task</a></li>
+                    <li><a href="../workflow/create_workflow.html">Workflow</a>
+                </ul>
+                <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>Manager DASHBOARD</header>
+            <p>List project</p>
+            <button><a id='view_all' onclick="get_all_project()">View All</a></button>
+            <div id="objects-container">
+                <table >
+                    <thead>
+                        <tr>
+                            <th>Project name</th>
+                            <th>ID Project</th>
+                            <th>Create time</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-output">  
+                    
+                    </tbody>
+                </table>
+            </div>
+            <div id="project-display">
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

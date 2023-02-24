@@ -73,15 +73,16 @@ def create_account(request: schemas.account_input, db: Session = Depends(get_db)
     db.add(new_account)
     db.commit()
     db.refresh(new_account)
-    return 
+    return new_account
 
 
 async def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+# async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    
     if security_scopes.scopes:
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
         authenticate_value = f"Bearer"
-
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -93,8 +94,9 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_scopes = payload.get("scopes", [])
-        token_data = schemas.TokenData(scopes=token_scopes, username=username)
+        # token_scopes = payload.get("scopes", [])
+        # token_data = schemas.TokenData(scopes=token_scopes, username=username)
+        token_data = schemas.TokenData(username=username)
     except (JWTError, ValidationError):
         raise credentials_exception
 
@@ -111,6 +113,17 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
     #         )
     return current_account
 
+# @router.get('/me')
+# def read_users_me(current_user: schemas.account = Security(get_current_user, scopes=["me"])):
+#     return current_user
+
 @router.get('/me')
-def read_users_me(current_user: schemas.project_status = Security(get_current_user, scopes=["me"])):
-    return current_user
+async def read_items(token: str = Depends(oauth2_scheme)):
+    return {"token": token}
+
+@router.get('/account')
+def get_all_account(db: Session = Depends(get_db)):
+    obj = db.query(models.accounts).all()
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj

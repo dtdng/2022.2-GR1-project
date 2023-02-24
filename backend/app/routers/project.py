@@ -91,3 +91,23 @@ def update_description(id: int, request: schemas.project_description, db: Sessio
     obj.description = request.description
     db.commit()
     return 'update success fully'
+
+
+@router.get('/status/{id}')
+def get_status(id: int,db: Session = Depends(get_db)):
+    obj = db.query(models.project_status).filter(models.project_status.id_project == id).first()
+    return obj
+
+@router.get('/')
+def get_all(db: Session = Depends(get_db)):
+    obj = db.query(models.Projects).order_by(models.Projects.id_project).all()
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj
+
+@router.get('/{id}')
+def get_project(id:int,db: Session = Depends(get_db)):
+    obj = db.query(models.Projects).filter(models.Projects.id_project == id).first()
+    if obj is None:
+        raise HTTPException(status_code=404, detail="DB is empty")
+    return obj

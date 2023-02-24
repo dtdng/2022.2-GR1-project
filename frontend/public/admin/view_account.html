@@ -25,9 +25,26 @@
         <!-- Main Content -->
         <div class="main-content">
             <header>ADMIN DASHBOARD</header>
-            <p>Admin information</p>
-            <div><img src="../img/none-avatar.jpg" width="100" height="100"></div>            
-            <button><a href="#" id="refresh" onclick="get_information()">Refresh</a></button>
+            <p>Account</p>
+            <button><a id='view_all' onclick="get_all_account()">View All</a></button>
+            <div id="objects-container">
+                <table >
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Role ID</th>
+                            <th>Account ID</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-output">  
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div id="project-display">
+                
+            </div>           
         </div>
     </div>
     <script src="admin.js"></script>

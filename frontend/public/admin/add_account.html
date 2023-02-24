@@ -4,10 +4,6 @@
 <head>
     <link rel="stylesheet" href="./index.css">
     <title>Admin Dashboard</title>
-    <style>
-        /* Define the main container styles */
-        
-    </style>
 </head>
 
 <body>
@@ -19,6 +15,7 @@
                 <ul>
                     <li><a href="./admin.html">Home</a></li>
                     <li><a href="./add_role.html">Add Role</a></li>
+                    <li><a href="./view_account.html">View Account</a></li>
                     <li><a href="#">Add Account</a></li>
                 </ul>
                 <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
@@ -28,7 +25,21 @@
         <!-- Main Content -->
         <div class="main-content">
             <header>ADD ACCOUNT</header>
-            <p>Add account</p>
+            <form>
+                <label for="role_id">Role ID:</label></br>
+                <input type="text" id="role_id" name="role_id"></br>
+                <label for="username">Username:</label></br>
+                <input type="text" id="username" name="username"></br>
+                <label for="password">Password:</label></br>
+                <input type="password" id="password" name="password"></br>
+                <label for="email">Email:</label></br>
+                <input type="text" id="email" name="email"></br>
+                <label for="id_card">ID card:</label></br>
+                <input type="text" id="id_card" name="id_card"></br>
+                <label for="name">Name:</label></br>
+                <input type="text" id="name" name="name"></br>
+                <div><button type="button" onclick="createAccount()">Create</button></div>
+            </form>
         </div>
     </div>
     <script src="admin.js"></script>

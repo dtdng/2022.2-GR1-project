@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="stylesheet" href="../index.css">
+        <script src="../manager.js"></script>
+        <title>Manager Dashboard</title>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <header>Manager Dashboard</header>
+            <nav>
+                <ul>
+                    <li><a href="../manager.html">Home</a></li>
+                    <li><a href="../project/view_project.html">List project</a></li>
+                    <li><a href="../project/create_project.html">Create project</a></li>
+                    <li><a href="../project/update_project.html">Update project</a></li>
+                    <li><a href="../task/create_task.html">Create task</a></li>
+                    <li><a href="../task/list_task.html">List task</a></li>
+                    <li><a href="../workflow/create_workflow.html">Workflow</a>
+                </ul>
+                <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>Manager DASHBOARD</header>
+            <div id="title_workflow"></div>
+            <div id="workflow_display"></div>
+            <button id="reload" type="button" onclick="get_workflow_by_id()">Reload</button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -56,6 +56,27 @@ async def get_current_user(security_scopes: SecurityScopes, token: str = Depends
     return current_account
 
 
+# @router.get('/me')
+# def read_users_me(current_user: schemas.project_status = Security(get_current_user, scopes=["me"])):
+#     return current_user
+
 @router.get('/me')
-def read_users_me(current_user: schemas.project_status = Security(get_current_user, scopes=["me"])):
-    return current_user
+def get_current_information(account_id: str, db: Session = Depends(get_db)):
+    obj = db.query(models.Employee).filter(models.Employee.account_id == account_id).first()
+    return obj
+
+
+@router.get('/')
+def get_all_employee(db: Session = Depends(get_db)):
+    obj = db.query(models.Employee).all()
+    return obj
+
+
+@router.get('/{id_employee}/task')
+def get_task(id_employee: int, db: Session = Depends(get_db)):
+    obj = db.query(models.task).filter(models.task.id_employee == id_employee).all()
+    return obj
+
+# @router.get('/project')
+# def get_project(db: Session = Depends(get_db)):
+#     obj = db.query(models.task).filter(models.task.id_employee == id_employee).all()

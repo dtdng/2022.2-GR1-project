@@ -83,3 +83,10 @@ def add_log(id: int, request: schemas.log_file, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_obj)
     return new_obj
+
+
+@router.get('/{id}')
+def get_all_WF_description(id: int,db: Session = Depends(get_db)):
+    obj = db.query(models.workflow_description).order_by(
+        models.workflow_description.id_project).filter(models.workflow_description.id_project==id).order_by(models.workflow_description.phase).all()
+    return obj

@@ -26,7 +26,7 @@ class Manager(Base):
 
     id_manager = Column(Integer, primary_key=True)
     email = Column(String)
-    account_id = Column(String)
+    account_id = Column(Integer)
 
 
 class Employee(Base):
@@ -35,7 +35,7 @@ class Employee(Base):
     id_employee = Column(Integer, primary_key=True)
     name = Column(String)
     email = Column(String)
-    account_id = Column(String)
+    account_id = Column(Integer)
 
 
 class Projects(Base):
