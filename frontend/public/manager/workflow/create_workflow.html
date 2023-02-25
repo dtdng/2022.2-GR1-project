@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <link rel="stylesheet" href="../index.css">
-        <script src="../manager.js"></script>
-        <title>Manager Dashboard</title>
+<head>
+    <link rel="stylesheet" href="../index.css">
+    <script src="../manager.js"></script>
+    <title>Manager Dashboard</title>
 </head>
 
 <body>
@@ -20,7 +20,8 @@
                     <li><a href="../project/update_project.html">Update project</a></li>
                     <li><a href="../task/create_task.html">Create task</a></li>
                     <li><a href="../task/list_task.html">List task</a></li>
-                    <li><a href="../workflow/create_workflow.html">Workflow</a>
+                    <li><a href="../workflow/create_workflow.html">Workflow Record</a>
+
                 </ul>
                 <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
             </nav>
@@ -29,8 +30,32 @@
         <!-- Main Content -->
         <div class="main-content">
             <header>Manager DASHBOARD</header>
-            <p>Workflow information</p>
-            <div id="workflow_title"></div>
+            <div id="workflow-title"></div>
+            <div id="list-record">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Workflow</th>
+                            <th>Execute Time</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="workflow-output">
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="showLogFile"></div>
+            <div>
+                Upload Logfile<br>
+                <form id="logFileInput">
+                    <label for="">
+                        <label for="fileInput">Choose a file:</label><br>
+                        <input type="file" id="fileInput" name="fileInput"><br>
+                        <input type="button" id="btnUploadFile" size="10" value="Upload">
+                </form>
+            </div>
         </div>
     </div>
 </body>

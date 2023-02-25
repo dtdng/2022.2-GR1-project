@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <link rel="stylesheet" href="../index.css">
-        <script src="../manager.js"></script>
-        <title>Manager Dashboard</title>
+<head>
+    <link rel="stylesheet" href="../index.css">
+    <script src="../manager.js"></script>
+    <title>Manager Dashboard</title>
 </head>
 
 <body>
@@ -20,7 +20,8 @@
                     <li><a href="../project/update_project.html">Update project</a></li>
                     <li><a href="../task/create_task.html">Create task</a></li>
                     <li><a href="../task/list_task.html">List task</a></li>
-                    <li><a href="../workflow/create_workflow.html">Workflow</a>
+                    <li><a href="../workflow/create_workflow.html">Workflow Record</a>
+
                 </ul>
                 <button><a href="#" id='logout' onclick="logout()">Logout</a></button>
             </nav>
@@ -30,8 +31,14 @@
         <div class="main-content">
             <header>Manager DASHBOARD</header>
             <div id="title_workflow"></div>
-            <div id="workflow_display"></div>
-            <button id="reload" type="button" onclick="get_workflow_by_id()">Reload</button>
+            <div id="workflow_display">
+                
+            </div>
+            <div><button id="reload" type="button" onclick="get_workflow_by_id()">Reload</button></div>
+            <div id="create-workflow-form">
+                <button id="reload" type="button" onclick="create_workflow_by_id()">Create Workflow</button>
+            </div>
+            <!-- <button id="reload" type="button" onclick="create_workflow_by_id()">Create Workflow</button> -->
         </div>
     </div>
 </body>

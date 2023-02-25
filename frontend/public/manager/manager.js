@@ -1,5 +1,6 @@
 var jwt = localStorage.getItem("jwt");
 var account_id = localStorage.getItem("account_id");
+var project_id_local = localStorage.getItem("project_id");
 function logout() {
   localStorage.setItem("jwt", null);
   window.location.href = '/public/login/login.html?#'
@@ -296,15 +297,14 @@ function update_status_by_id(id) {
   }
 }
 
-function get_workflow_by_id(){
+function get_workflow_by_id() {
   var project_id = localStorage.getItem("project_id");
-  let placeholder1=document.querySelector('#title_workflow');
+  let placeholder1 = document.querySelector('#title_workflow');
   let out1 = '';
-  out1 +=  `Workflow ${project_id}`;
+  out1 += `Project ID ${project_id}`;
   placeholder1.innerHTML = out1;
-
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET","http://localhost:8000/workflow/" + project_id);
+  xhttp.open("GET", "http://localhost:8000/workflow/" + project_id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -312,14 +312,14 @@ function get_workflow_by_id(){
       const objects = JSON.parse(this.responseText);
       if (objects != null) {
         let placeholder = document.querySelector("#workflow_display")
-        let out = `ID Project: ${project_id}<br><br>`
-        for(let object of objects){
+        let out = `<br><br>`
+        for (let object of objects) {
           out += `
             Phase: ${object.phase}<br>
             Description: ${object.description}<br><br>
           `;
-        } 
-        placeholder.innerHTML = out; 
+        }
+        placeholder.innerHTML = out;
       } else {
         alert('update failed')
       }
@@ -330,26 +330,202 @@ function get_workflow_by_id(){
 
 function get_information() {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:8000/manager/me?account_id="+account_id);
+  xhttp.open("GET", "http://localhost:8000/manager/me?account_id=" + account_id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-      "account_id": account_id
-  }))   
+    "account_id": account_id
+  }))
   xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        const objects = JSON.parse(this.responseText);
-        localStorage.setItem("id_employee", objects.id_employee);
-        if (objects != null) {
-          let placeholder = document.querySelector("#infor_display")
-          let out = ""
-          out += `
+    if (this.readyState == 4) {
+      const objects = JSON.parse(this.responseText);
+      localStorage.setItem("id_employee", objects.id_employee);
+      if (objects != null) {
+        let placeholder = document.querySelector("#infor_display")
+        let out = ""
+        out += `
               Account ID: ${objects.account_id}</br>
               Manager ID: ${objects.id_manager}</br>
               Email: ${objects.email}</br>
           `;
-          placeholder.innerHTML = out;
+        placeholder.innerHTML = out;
+      } else {
+      }
+    }
+  }
+}
+
+function create_workflow_by_id() {
+  var project_id = localStorage.getItem("project_id");
+  let placeholder1 = document.querySelector('#create-workflow-form');
+  let out1 = '';
+  out1 += `Create work flow for Project ID ${project_id} <br><br>
+    <label for="phase">Phase: </label><br>
+    <input type="text" id="phase" name="phase"><br><br>
+    <label for="description">Description: </label><br>
+    <input type="text" id="description" name="description"><br><br>
+    <button onclick="create_workflow(${project_id})">Submit</button>
+  `;
+  placeholder1.innerHTML = out1;
+}
+
+function create_workflow(project_id) {
+  const phase = document.getElementById("phase").value;
+  const description = document.getElementById("description").value;
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "http://localhost:8000/workflow/description/");
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "id_project": project_id,
+    "phase": phase,
+    "description": description
+  }))
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      const objects = JSON.parse(this.responseText);
+
+      if (objects != null) {
+        alert('create successfully')
+      } else {
+        alert('create failed')
+      }
+    }
+  }
+}
+
+let reader = new FileReader();
+reader.onload = function (event) {
+  let content = event.target.result;
+  localStorage.setItem("fileContent", content)
+};
+
+window.addEventListener("load", () => {
+  var project_id = localStorage.getItem("project_id");
+  let placeholder1 = document.querySelector('#workflow-title');
+  placeholder1.innerHTML = `<p>Workflow Record for Project ID ${project_id} </p>`;
+
+  const input = document.getElementById("fileInput");
+  const submit = document.getElementById("btnUploadFile");
+
+  submit.addEventListener("click", (e) => {
+    const file = input.files[0];
+    reader.readAsText(file);
+    var log = localStorage.getItem("fileContent");
+    var workflow_id = localStorage.getItem("workflow_id");
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "http://localhost:8000/workflow/record/logfile");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify({
+      "id_workflow": workflow_id,
+      "type": "jenkins log build",
+      "log": log,
+    }))
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        const objects = JSON.parse(this.responseText);
+
+        if (objects != null) {
+          alert('create successfully')
         } else {
+          alert('create failed')
         }
       }
     }
+  })
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:8000/workflow/record/" + project_id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "id_project": project_id,
+  }))
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      const objects = JSON.parse(this.responseText);
+      if (objects != null) {
+        let placeholder = document.querySelector("#workflow-output")
+        let out = ""
+        for (let object of objects)
+          out += `
+            <tr>
+              <td>${object.id_workflow}</td>
+              <td>${object.execute_time}</td>
+              <td>${object.status}</td>
+              <td><button onclick="view_log_file_by_workflow_id(${object.id_workflow})">Select</button></td>
+            </tr>
+        `;
+        placeholder.innerHTML = out;
+      } else {
+        alert("No JSON result")
+      }
+    }
+  }
+
+})
+
+function view_log_file_by_workflow_id(id) {
+  localStorage.setItem("workflow_id", id);
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:8000/workflow/record/" + id + "/log");
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send()
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      const objects = JSON.parse(this.responseText);
+      if (objects != null) {
+        let placeholder = document.querySelector("#showLogFile")
+        let out = `Workflow Build #${id}<br><br>`
+        for (let object of objects)
+          out += `
+              Phase:${object.phase}<br>
+              Type: ${object.type}<br>
+              Content:${object.log_description}<br><br>
+              `;
+        // <td><button onclick="view_log_file_by_workflow_id(${object.id_workflow})">Select</button></td>
+        // out += '<button onclick="create_logfile_input_form()">Upload Logfile</button>'
+        placeholder.innerHTML = out;
+      } else {
+        alert("No logfile with that workflow ")
+      }
+    }
+  }
+}
+
+// function create_logfile_input_form(){
+//   let placeholder = document.querySelector("#logFileInput")
+//   let out = `
+//   <label for="fileInput">Choose a file:</label><br>
+//   <input type="file" id="fileInput" name="fileInput"><br>
+//   <button id="upload_logfile" onclick="upload_logfile()">Upload</button>
+//   `
+//   placeholder.innerHTML = out;
+// }
+
+// C:\Users\Admin\AppData\Local\Jenkins\.jenkins\workspace\test_master\log-file
+
+
+// function upload_logfile(){
+
+// }
+function add_logfile(workflow_id, log) {
+  var log = localStorage.getItem("fileContent");
+  var workflow_id = localStorage.getItem("workflow_id");
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "http://localhost:8000/workflow/record/logfile");
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "id_workflow": 1,
+    "type": "jenkins log build",
+    "log": "test",
+  }))
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      const objects = JSON.parse(this.responseText);
+
+      if (objects != null) {
+        alert('create successfully')
+      } else {
+        alert('create failed')
+      }
+    }
+  }
 }

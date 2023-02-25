@@ -50,7 +50,7 @@ def delete_workflow_description(request: schemas.workflow_description, db: Sessi
 @router.post('/record/')
 def create_record(request: schemas.workflow_record, db: Session = Depends(get_db)):
     new_obj = models.workflow_record(
-        id_workflow=request.id_workflow,
+        id_workflow=db.query(models.workflow_record).count() + 1,
         id_project=request.id_project,
         status=request.status,
         execute_time=datetime.now()
@@ -71,11 +71,11 @@ def delete_record(id: int, request: schemas.workflow_record, db: Session = Depen
     return
 
 
-@router.post('/record/{id}/logfile')
-def add_log(id: int, request: schemas.log_file, db: Session = Depends(get_db)):
+@router.post('/record/logfile')
+def add_log(request: schemas.log_file, db: Session = Depends(get_db)):
     new_obj = models.logfile(
         id_workflow=request.id_workflow,
-        phase=request.phase,
+        phase= db.query(models.logfile).filter(models.logfile.id_workflow==request.id_workflow).count()+1,
         type=request.type,
         log_description=request.log
     )
@@ -86,7 +86,22 @@ def add_log(id: int, request: schemas.log_file, db: Session = Depends(get_db)):
 
 
 @router.get('/{id}')
-def get_all_WF_description(id: int,db: Session = Depends(get_db)):
+def get_all_WF_description(id: int, db: Session = Depends(get_db)):
     obj = db.query(models.workflow_description).order_by(
-        models.workflow_description.id_project).filter(models.workflow_description.id_project==id).order_by(models.workflow_description.phase).all()
+        models.workflow_description.id_project).filter(models.workflow_description.id_project == id).order_by(models.workflow_description.phase).all()
     return obj
+
+
+@router.get('/record/{id}')
+def get_all_WF_record(id: int, db: Session = Depends(get_db)):
+    obj = db.query(models.workflow_record).order_by(
+        models.workflow_record.id_project).filter(models.workflow_record.id_project == id).all()
+    return obj
+
+
+@router.get('/record/{id_workflow}/log')
+def get_log_file_by_id(id_workflow: int, db: Session = Depends(get_db)):
+    obj = db.query(models.logfile).filter(
+        models.logfile.id_workflow == id_workflow).all()
+    return obj
+

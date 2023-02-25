@@ -96,7 +96,7 @@ class workflow_record(BaseModel):
 
 class log_file(BaseModel):
     id_workflow: int
-    phase: int
+    # phase: int
     type: str
     log: str
 
