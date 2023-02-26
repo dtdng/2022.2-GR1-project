@@ -3,7 +3,7 @@ var account_id = localStorage.getItem("account_id");
 var project_id_local = localStorage.getItem("project_id");
 function logout() {
   localStorage.setItem("jwt", null);
-  window.location.href = '/public/login/login.html?#'
+  window.location.href = '../login/login.html'
 }
 
 function save_project_id(project_id) {

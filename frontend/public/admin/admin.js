@@ -2,7 +2,7 @@ var jwt = localStorage.getItem("jwt");
 
 function logout() {
   localStorage.setItem("jwt", null);
-  window.location.href = '../login/login.html?#'
+  window.location.href = '../login/login.html'
 }
 
 function get_information() {
