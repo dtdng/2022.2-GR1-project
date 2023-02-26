@@ -73,9 +73,10 @@ def delete_record(id: int, request: schemas.workflow_record, db: Session = Depen
 
 @router.post('/record/logfile')
 def add_log(request: schemas.log_file, db: Session = Depends(get_db)):
+    id_workflow_new = db.query(models.workflow_record).count();
     new_obj = models.logfile(
-        id_workflow=request.id_workflow,
-        phase= db.query(models.logfile).filter(models.logfile.id_workflow==request.id_workflow).count()+1,
+        id_workflow=id_workflow_new,
+        phase= db.query(models.logfile).filter(models.logfile.id_workflow==id_workflow_new).count()+1,
         type=request.type,
         log_description=request.log
     )

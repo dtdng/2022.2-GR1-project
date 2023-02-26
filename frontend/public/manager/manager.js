@@ -358,7 +358,7 @@ function create_workflow_by_id() {
   var project_id = localStorage.getItem("project_id");
   let placeholder1 = document.querySelector('#create-workflow-form');
   let out1 = '';
-  out1 += `Create work flow for Project ID ${project_id} <br><br>
+  out1 += `Create workflow description for Project ID ${project_id} <br><br>
     <label for="phase">Phase: </label><br>
     <input type="text" id="phase" name="phase"><br><br>
     <label for="description">Description: </label><br>
@@ -411,25 +411,43 @@ window.addEventListener("load", () => {
     reader.readAsText(file);
     var log = localStorage.getItem("fileContent");
     var workflow_id = localStorage.getItem("workflow_id");
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "http://localhost:8000/workflow/record/logfile");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify({
-      "id_workflow": workflow_id,
-      "type": "jenkins log build",
-      "log": log,
+
+    const xhttp1 = new XMLHttpRequest();
+    xhttp1.open("POST", "http://localhost:8000/workflow/record/");
+    xhttp1.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp1.send(JSON.stringify({
+      "id_workflow": 1,
+      "id_project": project_id,
+      "status": ""
     }))
-    xhttp.onreadystatechange = function () {
+    xhttp1.onreadystatechange = function () {
       if (this.readyState == 4) {
         const objects = JSON.parse(this.responseText);
-
         if (objects != null) {
-          alert('create successfully')
+          const xhttp = new XMLHttpRequest();
+          xhttp.open("POST", "http://localhost:8000/workflow/record/logfile");
+          xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhttp.send(JSON.stringify({
+            "id_workflow": 1,
+            "type": "jenkins log build",
+            "log": log,
+          }))
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+              const objects = JSON.parse(this.responseText);
+              if (objects != null) {
+                alert('create successfully')
+              } else {
+                alert('create failed')
+              }
+            }
+          }
         } else {
           alert('create failed')
         }
       }
     }
+
   })
 
   const xhttp = new XMLHttpRequest();
